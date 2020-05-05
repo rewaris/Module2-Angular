@@ -1,2 +1,2 @@
 # module2 Hands-on
-Angular8 Based Application
+Module2 - Angular8 Based Application
