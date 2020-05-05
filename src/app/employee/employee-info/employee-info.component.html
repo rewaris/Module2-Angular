@@ -1,0 +1,78 @@
+
+<form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)">
+    <div  *ngIf="showMsg">
+        <div class="alert alert-success alert-dismissible">
+            <strong>Success!</strong>Your data has been inserted.
+            <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            
+          </div>
+      </div> 
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create Employee</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group" [class.has-error]="firstname.invalid && submitted">
+                <label for="firstname" class="control-label">First Name</label>
+                <input required minlength="3" id="firstname" pattern="[a-zA-Z]*" name="firstname" [(ngModel)]="employee.firstname" type="text" class="form-control" #firstname='ngModel'/>
+                <span class="help-block" *ngIf="firstname.errors?.required && submitted">Firs tName is required</span>
+                <span class="help-block" *ngIf="firstname.errors?.minlength && firstname.touched">Minimum Length should be 3</span>
+                <span class="help-block" *ngIf="firstname.errors?.pattern && firstname.touched">First Name is invalid</span>
+                
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input id="lastname" name="lastname" [(ngModel)]="employee.lastname" type="text" class="form-control" #lastname='ngModel'/>
+                
+            </div>
+            <div class="form-group" [class.has-error]="phonenumber.invalid && submitted">
+                <label for="phonenumber" class="control-label">Phone Number</label>
+                <input required pattern="^((\\+91-?)|0)?[0-9]{10}$" id="phonenumber" name="phonenumber" [(ngModel)]="employee.phonenumber" type="text" class="form-control" #phonenumber="ngModel"/>
+                <span class="help-block" *ngIf="phonenumber.errors?.required && submitted">Phone Number is required</span>
+                <span class="help-block" *ngIf="phonenumber.errors?.pattern && phonenumber.touched">Phone Number is Invalid</span>
+            </div>
+
+            <div class="form-group" [class.has-error]="email.invalid  && submitted">
+                <label for="email" class="control-label">Email</label>
+                <input id="email" name="email" [(ngModel)]="employee.email" 
+                 type="text" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" class="form-control" #email='ngModel' />
+                 <span *ngIf="email.errors?.required && submitted" class="help-block">Email is required</span>
+                 <span *ngIf="email.errors?.pattern && email.touched" class="help-block">Email is Invalid</span>
+            </div>
+            
+            <div class="form-group" [class.has-error]="dateofbirth.invalid && submitted">
+                <label for="dateofbirth" class="control-label">Date of Birth</label>
+                <input  required appAgeNotAllowed id="dateofbirth" name="dateofbirth" [(ngModel)]="employee.dateofbirth"
+                        type="date" class="form-control" #dateofbirth='ngModel' />
+                        <span *ngIf="dateofbirth.errors?.required && submitted" class="help-block">Date of Birth is required</span>
+                        <span *ngIf="dateofbirth.errors?.dateInvalid && dateofbirth.touched" class="help-block">Date of Birth is invalid</span>
+                 
+              </div>
+              <div class="form-group" [class.has-error]="placeofbirth.invalid && placeofbirth.touched && submitted">
+                <label for="placeofbirth" class="control-label">Place Of Birth</label>
+                <input id="placeofbirth" minlength="3" name="placeofbirth" [(ngModel)]="employee.placeofbirth" type="text" class="form-control" #placeofbirth='ngModel'/>
+                <span class="help-block" *ngIf="placeofbirth.errors?.minlength && placeofbirth.touched">Minimum Length should be 3</span>
+            </div>
+           
+            <div class="form-group" [class.has-error]="username.invalid && submitted">
+                <label for="username" class="control-label">User Name</label>
+                <input required  minlength="2" pattern="^[a-z0-9_-]{8,15}$"  id="username" name="username" [(ngModel)]="employee.username" type="text" class="form-control" #username='ngModel'/>
+                <span class="help-block" *ngIf="username.errors?.required && submitted">User Name is required</span>
+                <span class="help-block" *ngIf="username.errors?.minlength && username.touched">Minimum Length should be 2</span>
+                <span class="help-block" *ngIf="username.errors?.pattern && username.touched">User Name is Invalid</span>
+                <span class="help-block" *ngIf="isUserExist && submitted">User Name shoul be unique</span>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" [(ngModel)]="employee.address" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+    </form>
+    
+    {{ employeeForm.value | json }}
